@@ -9,6 +9,17 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Konoha AI Bot
+      - name: Ping Konoha AI Bot (with retry)
         run: |
-          curl -I -X GET "https://jojobalabot-10.onrender.com/health"
+          for i in 1 2 3 4 5; do
+            echo "Attempt $i: Pinging..."
+            # استفاده از flag -f برای این که curl با خطاهای HTTP (مثل 503) fail بشه.
+            if curl --max-time 60 -f -s -o /dev/null "https://jojobalabot-10.onrender.com/health"; then
+              echo "✅ Ping successful!"
+              exit 0
+            fi
+            echo "⚠️ Retrying in 10 seconds..."
+            sleep 10
+          done
+          echo "❌ All attempts failed."
+          exit 1
