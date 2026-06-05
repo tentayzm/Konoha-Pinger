@@ -2,7 +2,7 @@ name: Keep Konoha Awake
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 * * * *'  # هر 5 دقیقه یکبار
   workflow_dispatch:
 
 jobs:
@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Ping Konoha AI Bot
         run: |
-          curl -I -X GET "https://jojobalabot.onrender.com/health" || echo "Ping failed"
+          curl -I -X GET "https://jojobalabot-10.onrender.com/health" || echo "Ping failed"
